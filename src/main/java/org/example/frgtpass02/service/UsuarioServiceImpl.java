@@ -5,6 +5,8 @@ import org.example.frgtpass02.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
@@ -21,5 +23,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Encriptar la contraseña antes de guardarla
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public boolean validarUsuario(Usuario usuario) {
+        Optional<Usuario> u=usuarioRepository.findByUsername(usuario.getUsername());
+        if(u.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

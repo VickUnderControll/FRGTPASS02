@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/")
@@ -19,7 +20,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "login"; // Esto debe coincidir con el nombre del archivo HTML (login.html)
+        return "login";
     }
 
     @GetMapping("/register")
@@ -28,8 +29,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(Usuario usuario) {
-        usuarioService.registrarUsuario(usuario);
-        return "redirect:/login";
+    public String registerUser(Usuario usuario, RedirectAttributes redirectAttributes) {
+        if(usuarioService.validarUsuario(usuario)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "El usuario ya está registrado.");
+            return "redirect:/register";
+        }else {
+            usuarioService.registrarUsuario(usuario);
+            return "redirect:/login";
+        }
+
     }
 }

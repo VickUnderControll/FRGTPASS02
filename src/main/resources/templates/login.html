@@ -2,13 +2,141 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 300px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            position: relative;
+            margin-bottom: 20px;
+            text-align: center;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .navegacion {
+            display: inline-flex;
+            gap: 15px;
+            color: #666;
+        }
+
+        .navegacion a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .navegacion a:hover {
+            text-decoration: underline;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-container input {
+            padding-right: 40px; /* Espacio para el ícono */
+        }
+
+        .password-container .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+
+        .password-container .toggle-password:hover {
+            color: #4CAF50;
+        }
+    </style>
+    <!-- Font Awesome para el ícono del ojo -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<h1>Login</h1>
-<form th:action="@{/login}" method="post">
-    <input type="text" name="username" placeholder="Usuario" required>
-    <input type="password" name="password" placeholder="Contraseña" required>
-    <button type="submit">Iniciar Sesión</button>
-</form>
+<div class="container">
+    <h1>Log in</h1>
+    <form th:action="@{/login}" method="post">
+        <div class="form-container">
+            <input type="text" name="username" placeholder="User" required>
+            <div class="password-container">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <i class="toggle-password fas fa-eye" onclick="togglePasswordVisibility()"></i>
+            </div>
+            <button onclick="document.getElementById('success').innerHTML='Inicio de Sesión exitoso!'" style="margin-top: 10px;">Log In</button>
+        </div>
+
+        <div class="navegacion">
+            <a href="/register">Or create a new account</a>
+        </div>
+
+        <div id="success"></div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('success').innerHTML = '';
+
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.querySelector('.toggle-password');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+</script>
 </body>
 </html>
